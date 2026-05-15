@@ -25,7 +25,23 @@ export default class ProductDetails {
   
 
   renderProductDetails() {
+    if (["1308", "985RF", "880RR", "989CG"].includes(this.productId)) {
+  productDetailsTemplateDiscount(this.product);
+} else {
+  productDetailsTemplate(this.product);
+}
+   /* if (
+      this.productId == "1308" ||
+      this.productId == "985RF"  ||
+      this.productId == "880RR" ||
+      
+      this.productId == "989CG"
+    ) {
+      productDetailsTemplateDiscount(this.product)
+    }
+    else {
     productDetailsTemplate(this.product);
+  }*/
   }
 }
   function productDetailsTemplate(product) {
@@ -33,10 +49,24 @@ export default class ProductDetails {
   document.querySelector('h3').textContent = product.NameWithoutBrand;
 
   const productImage = document.getElementById('productImage');
-  productImage.src = product.Images.PrimaryExtraLarge;
+  productImage.src = product.Image;
   productImage.alt = product.NameWithoutBrand;
 
   document.getElementById('productPrice').textContent = product.FinalPrice;
+  document.getElementById('productColor').textContent = product.Colors[0].ColorName;
+  document.getElementById('productDesc').innerHTML = product.DescriptionHtmlSimple;
+
+  document.getElementById('addToCart').dataset.id = product.Id;
+}
+function productDetailsTemplateDiscount(product) {
+  document.querySelector('h2').textContent = product.Brand.Name;
+  document.querySelector('h3').textContent = product.NameWithoutBrand;
+
+  const productImage = document.getElementById('productImage');
+  productImage.src = product.Image;
+  productImage.alt = product.NameWithoutBrand;
+
+  document.getElementById('productPrice').textContent = "20% OFF";
   document.getElementById('productColor').textContent = product.Colors[0].ColorName;
   document.getElementById('productDesc').innerHTML = product.DescriptionHtmlSimple;
 
