@@ -9,7 +9,7 @@ export default class ProductDetails {
 
   async init() {
     this.product = await this.dataSource.findProductById(this.productId);
-    this.renderProductDetails();
+  this.renderProductDetails();
 
     document
       .getElementById("addToCart")
@@ -24,6 +24,9 @@ export default class ProductDetails {
 
   renderProductDetails() {
     const container = document.querySelector(".product-detail");
+    const discount = Math.round (
+      (1 - this.product.FinalPrice / this.product.SuggestedRetailPrice) * 100 
+    );
 
     container.innerHTML = `
       <h3>${this.product.Brand.Name}</h3>
@@ -31,7 +34,11 @@ export default class ProductDetails {
 
       <img class="divider" src="${this.product.Image}" alt="${this.product.NameWithoutBrand}" />
 
-      <p class="product-card__price">$${this.product.FinalPrice}</p>
+      <p class="product-card__price"><span class="final-price">$${this.product.FinalPrice}</span></p>
+
+      <span class="retail-price">$${this.product.SuggestedRetailPrice}</span>
+
+      <span class="discount-badge"> - ${discount} % </span>
 
       <p class="product__color">${this.product.Colors[0].ColorName}</p>
 
@@ -42,4 +49,5 @@ export default class ProductDetails {
       </div>
     `;
   }
+  
 }
