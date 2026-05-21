@@ -1,7 +1,15 @@
-import { getLocalStorage } from "./utils.mjs";
+// imports loading header and footer, as well as local storage functions and cart badge update function
+import {
+  getLocalStorage,
+  setLocalStorage,
+  loadHeaderFooter,
+  updateCartBadge,
+} from "./utils.mjs";
+
+loadHeaderFooter();
 
 function renderCartContents() {
-  const cartItems = getLocalStorage("so-cart");
+  const cartItems = getLocalStorage("so-cart") || [];
   const htmlItems = cartItems.map((item) => cartItemTemplate(item));
   document.querySelector(".cart-list").innerHTML = htmlItems.join("");
 }
@@ -36,9 +44,10 @@ document.querySelector(".cart-list").addEventListener("click", (event) => {
 });
 
 function removeFromCart(id) {
-  const cart = getLocalStorage("so-cart") || []; // Read the current cart from local storage
-  const updatedCart = cart.filter((item) => item.Id != id);  // Create a new cart without the item we want to remove
-  localStorage.setItem("so-cart", JSON.stringify(updatedCart));   // Save the updated cart
-
-  renderCartContents(); // Re-render the cart contents
+  const cart = getLocalStorage("so-cart") || [];
+  const index = cart.findIndex((item) => item.Id == id);
+  if (index !== -1) cart.splice(index, 1);
+  setLocalStorage("so-cart", cart);
+  updateCartBadge();
+  renderCartContents();
 }
