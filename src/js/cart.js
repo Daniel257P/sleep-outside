@@ -1,5 +1,10 @@
 // imports loading header and footer, as well as local storage functions and cart badge update function
-import { getLocalStorage, setLocalStorage, loadHeaderFooter, updateCartBadge } from "./utils.mjs"; 
+import {
+  getLocalStorage,
+  setLocalStorage,
+  loadHeaderFooter,
+  updateCartBadge,
+} from "./utils.mjs";
 
 loadHeaderFooter();
 
