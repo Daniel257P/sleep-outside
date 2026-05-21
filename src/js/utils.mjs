@@ -2,8 +2,6 @@
 export function qs(selector, parent = document) {
   return parent.querySelector(selector);
 }
-// or a more concise version if you are into that sort of thing:
-// export const qs = (selector, parent = document) => parent.querySelector(selector);
 
 // retrieve data from localstorage
 export function getLocalStorage(key) {
@@ -35,4 +33,42 @@ export function renderListWithTemplate(template, parentElement, list, position =
     parentElement.innerHTML = "";
   }
   parentElement.insertAdjacentHTML(position, htmlStrings.join(""));
+}
+
+export function renderWithTemplate(template, parentElement, data, callback) {
+  parentElement.innerHTML = template;
+  if (callback) {
+    callback(data);
+  }
+}
+
+async function loadTemplate(path) {
+  const res = await fetch(path);
+  const template = await res.text();
+  return template;
+}
+
+// Moved this function from main to utils so it can be used in both main and cart team 3
+export function updateCartBadge() {
+  const cart = JSON.parse(localStorage.getItem("so-cart")) || [];
+  const badge = document.querySelector(".cart-number");
+  if (!badge) return;
+  if (cart.length > 0) {
+    badge.textContent = cart.length;
+    badge.style.display = "block";
+  } else {
+    badge.style.display = "none";
+  }
+}
+
+export async function loadHeaderFooter() {
+  const headerTemplate = await loadTemplate("/partials/header.html");
+  const footerTemplate = await loadTemplate("/partials/footer.html");
+
+  const headerElement = document.querySelector("#main-header");
+  const footerElement = document.querySelector("#main-footer");
+
+  renderWithTemplate(headerTemplate, headerElement);
+  renderWithTemplate(footerTemplate, footerElement);
+  updateCartBadge();
 }
