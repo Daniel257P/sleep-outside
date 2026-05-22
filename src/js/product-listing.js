@@ -6,7 +6,6 @@ loadHeaderFooter();
 //week 3 - moved from main.js to product-list.js
 
 const category = getParam('category');
-
 function renderCategory() {  //show the category name on the page
     const categoryTitle = document.querySelector('.product-title');
     categoryTitle.textContent = category;
