@@ -167,6 +167,26 @@ button {
   text-align: center;
 }
 
+/* week 3 individual */
+.category-icons {
+  padding-top: 50px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  text-align: center;
+}
+
+.category-icons img{
+  width: 100px;
+  height: auto;
+}
+
+.category-icons p{
+  text-align: center;
+  font-weight: bolder;
+}
+
+
 .products {
   margin-top: 2rem;
   padding: 1rem;
