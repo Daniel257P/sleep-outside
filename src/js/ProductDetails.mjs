@@ -3,13 +3,13 @@ import { getLocalStorage, setLocalStorage } from "./utils.mjs";
 export default class ProductDetails {
   constructor(productId, dataSource) {
     this.productId = productId;
-    this.dataSource = dataSource;
     this.product = {};
+    this.dataSource = dataSource;
   }
 
   async init() {
     this.product = await this.dataSource.findProductById(this.productId);
-  this.renderProductDetails();
+    this.renderProductDetails();
 
     document
       .getElementById("addToCart")
@@ -32,7 +32,7 @@ export default class ProductDetails {
       <h3>${this.product.Brand.Name}</h3>
       <h2 class="divider">${this.product.NameWithoutBrand}</h2>
 
-      <img class="divider" src="${this.product.Image}" alt="${this.product.NameWithoutBrand}" />
+      <img class="divider" src="${this.product.Images.PrimaryLarge}" alt="${this.product.NameWithoutBrand}" />
 
       <p class="product-card__price"><span class="final-price">$${this.product.FinalPrice}</span></p>
 
