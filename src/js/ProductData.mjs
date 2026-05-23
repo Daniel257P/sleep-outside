@@ -16,8 +16,13 @@ export default class ProductData {
       .then(convertToJson)
       .then((data) => data);
   }
+
   async findProductById(id) {
     const products = await this.getData();
-    return products.find((item) => item.Id === id);
+    return products.find((item) => item.Id === id || item.id === id);
+  }
+
+  async getProductById(id) {
+    return this.findProductById(id);
   }
 }

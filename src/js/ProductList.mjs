@@ -1,8 +1,10 @@
+import { renderListWithTemplate } from "./utils.mjs";
+
 //template function that will simply return a template literal string for each of the templates needed
 function productCardTemplate(product) {
   return `
     <li class="product-card">
-      <a href="product_pages/index.html?product=${product.id}">
+      <a href="product_pages/index.html?product=${product.Id}">
         <img src="${product.Image}" alt="${product.Name}">
         <h3 class="card__brand">${product.Brand.Name}</h3>
         <h2 class="card__name">${product.Name}</h2>
@@ -10,11 +12,6 @@ function productCardTemplate(product) {
       </a>
     </li>
   `;
-}
-
-function renderListWithTemplate(renderFn, listElement, items) {
-  if (!listElement || !items) return;
-  listElement.innerHTML = items.map(renderFn).join("");
 }
 
 //The ProductList class should have a constructor that takes three parameters: category, dataSource, and listElement.
@@ -45,7 +42,7 @@ renderList(product) {
 }
 
 render(products) {
-  renderListWithTemplate(this.renderList.bind(this), this.listElement, products);
+  renderListWithTemplate(this.renderList.bind(this), this.listElement, products, "afterbegin", true);
 }
 
 handleError(error) {
