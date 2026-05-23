@@ -2,8 +2,7 @@ import { loadHeaderFooter } from "./utils.mjs";
 // Load header and footer templates team3
 loadHeaderFooter();
 
-
-//week 3 moved to product-listing.js 
+//week 3 moved to product-listing.js
 
 //import ProductData from "./ProductData.mjs";
 //import ProductList from "./ProductList.mjs";

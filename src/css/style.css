@@ -176,16 +176,15 @@ button {
   text-align: center;
 }
 
-.category-icons img{
+.category-icons img {
   width: 100px;
   height: auto;
 }
 
-.category-icons p{
+.category-icons p {
   text-align: center;
   font-weight: bolder;
 }
-
 
 .products {
   margin-top: 2rem;

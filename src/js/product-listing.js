@@ -1,14 +1,15 @@
 import ProductData from "./ProductData.mjs";
 import ProductList from "./ProductList.mjs";
-import { loadHeaderFooter, getParam } from './utils.mjs';
+import { loadHeaderFooter, getParam } from "./utils.mjs";
 
 loadHeaderFooter();
 //week 3 - moved from main.js to product-list.js
 
-const category = getParam('category');
-function renderCategory() {  //show the category name on the page
-    const categoryTitle = document.querySelector('.product-title');
-    categoryTitle.textContent = category;
+const category = getParam("category");
+function renderCategory() {
+  //show the category name on the page
+  const categoryTitle = document.querySelector(".product-title");
+  categoryTitle.textContent = category;
 }
 renderCategory();
 
