@@ -53,8 +53,9 @@ export function updateCartBadge() {
   const cart = JSON.parse(localStorage.getItem("so-cart")) || [];
   const badge = document.querySelector(".cart-number");
   if (!badge) return;
-  if (cart.length > 0) {
-    badge.textContent = cart.length;
+  const totalItems = cart.reduce((sum, item) => sum + (item.quantity || 1), 0);
+  if (totalItems > 0) {
+    badge.textContent = totalItems;
     badge.style.display = "block";
   } else {
     badge.style.display = "none";
