@@ -4,5 +4,5 @@ import { loadHeaderFooter } from "./utils.mjs";
 loadHeaderFooter();
 
 const cartList = document.querySelector(".cart-list");
-const cart = new ShoppingCart(cartList);
+const cart = new shoppingCart(cartList);
 cart.init();
