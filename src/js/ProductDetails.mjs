@@ -16,9 +16,17 @@ export default class ProductDetails {
       .addEventListener("click", this.addProductToCart.bind(this));
   }
 
+
   addProductToCart() {
     const cartItems = getLocalStorage("so-cart") || [];
-    cartItems.push(this.product);
+    //week 3 task julia - sum if the item exists 
+    const existingItem = cartItems.find(item => item.Id === this.productId);
+    if (existingItem) {
+      existingItem.quantity += 1;
+    } else {
+      const newCartItem = { ...this.product, quantity: 1 };
+      cartItems.push(newCartItem);
+    }
     setLocalStorage("so-cart", cartItems);
   }
 
