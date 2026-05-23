@@ -28,18 +28,24 @@ export default class ProductDetails {
       (1 - this.product.FinalPrice / this.product.SuggestedRetailPrice) * 100 
     );
 
+    const discountAmount = (
+      this.product.SuggestedRetailPrice - this.product.FinalPrice
+    ).toFixed(2);
+
     container.innerHTML = `
       <h3>${this.product.Brand.Name}</h3>
       <h2 class="divider">${this.product.NameWithoutBrand}</h2>
 
       <img class="divider" src="${this.product.Images.PrimaryLarge}" alt="${this.product.NameWithoutBrand}" />
 
-      <p class="product-card__price"><span class="final-price">$${this.product.FinalPrice}</span></p>
+      <div class=price-block">
+        <span class="final-price">$${this.product.FinalPrice}</span>
+        <span class="retail-price">$${this.product.SuggestedRetailPrice}</span>
+        <span class="discount-badge">-${discount}%</span>
+      </div>
 
-      <span class="retail-price">$${this.product.SuggestedRetailPrice}</span>
-
-      <span class="discount-badge"> - ${discount} % </span>
-
+      <p class="discount-amount">You save: $${discountAmount}</p>
+      
       <p class="product__color">${this.product.Colors[0].ColorName}</p>
 
       <p class="product__description">${this.product.DescriptionHtmlSimple}</p>
