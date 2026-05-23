@@ -23,7 +23,7 @@ function cartItemTemplate(item) {
   `;
 }
 
-export default class ShoppingCart {
+export default class shoppingCart {
   constructor(listElement) {
     this.listElement = listElement;
     this.key = "so-cart";
