@@ -34,11 +34,11 @@ export default class ProductDetails {
 
       <img class="divider" src="${this.product.Images.PrimaryLarge}" alt="${this.product.NameWithoutBrand}" />
 
-      <p class="product-card__price"><span class="final-price">$${this.product.FinalPrice}</span></p>
-
-      <span class="retail-price">$${this.product.SuggestedRetailPrice}</span>
-
-      <span class="discount-badge"> - ${discount} % </span>
+      <div class=price-block">
+        <span class="final-price">$${this.product.FinalPrice}</span>
+        <span class="retail-price">$${this.product.SuggestedRetailPrice}</span>
+        <span class="discount-badge">-${discount}%</span>
+      </div>
 
       <p class="product__color">${this.product.Colors[0].ColorName}</p>
 
