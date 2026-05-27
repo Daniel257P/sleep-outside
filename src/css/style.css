@@ -147,7 +147,18 @@ button {
   display: none;
 }
 
-/* End cart icon styles */
+/*total in cart style*/
+.cart-total {
+  font-size:larger;
+  display: flex;
+  justify-content: flex-end;
+  font-weight: bold;
+}
+.cart-footer.hide {
+  display: none;
+}
+/* End total styles */
+
 
 .mission {
   position: absolute;
