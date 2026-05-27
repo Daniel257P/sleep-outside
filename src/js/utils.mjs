@@ -73,3 +73,20 @@ export async function loadHeaderFooter() {
   renderWithTemplate(footerTemplate, footerElement);
   updateCartBadge();
 }
+
+export function alertMessage(message, scroll = true) {
+  const alert = document.createElement("div");
+  alert.classList.add("alert");
+
+  alert.innerHTML = `
+    <p>${message}</p>
+    <span class="close">X</span>
+  `;
+  document.body.appendChild(alert);
+
+  alert.querySelector(".close").addEventListener("click", () => {
+    alert.remove();
+  });
+
+  if (scroll) window.scrollTo(0, 0);
+}
