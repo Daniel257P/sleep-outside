@@ -82,7 +82,8 @@ export function alertMessage(message, scroll = true) {
     <p>${message}</p>
     <span class="close">X</span>
   `;
-  document.body.appendChild(alert);
+  const main = document.querySelector("main");
+  main.prepend(alert);
 
   alert.querySelector(".close").addEventListener("click", () => {
     alert.remove();
