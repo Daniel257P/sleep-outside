@@ -125,7 +125,8 @@ export default class CheckoutProcess {
     } catch (err) {
       console.log("Error occurred while checking out:", err);
 
-      alertMessage(err.message?.message || "There was an error processing your order.");
+      const serverMessage = err?.message?.message || err?.message ||"An error occurred during checkout. Please try again.";
+      alertMessage(serverMessage);
     }
   }
 }
