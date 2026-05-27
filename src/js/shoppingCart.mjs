@@ -23,6 +23,28 @@ function cartItemTemplate(item) {
   `;
 }
 
+
+// week 3 - total in shopping cart
+function cartTotal() {
+  const cart = JSON.parse(localStorage.getItem("so-cart")) || []; //item from local storage
+  const total = document.querySelector(".cart-total"); //class to display amount
+  const totalContainer = document.querySelector(".cart-footer"); // class to hide/show
+  if (!total) return;
+
+  const totalAmount = cart.reduce((sum, item) => {
+    const price = item.FinalPrice || 0;
+    const quantity = item.quantity || 1;
+    return sum + (price * quantity); 
+  }, 0);
+  
+  if (totalAmount > 0) {
+    total.textContent = `Total: $${totalAmount.toFixed(2)}`;
+    totalContainer.classList.remove("hide");
+  } else {
+    totalContainer.classList.add("hide");
+  }
+}
+
 export default class shoppingCart {
   constructor(listElement) {
     this.listElement = listElement;
@@ -60,6 +82,9 @@ export default class shoppingCart {
     cart = cart.filter((item) => item.Id !== id);
     setLocalStorage(this.key, cart);
     updateCartBadge();
+    cartTotal();
     this.renderList(cart);
   }
 }
+
+document.addEventListener("DOMContentLoaded", cartTotal);
