@@ -11,13 +11,20 @@ async function convertToJson(res) {
 
   if (res.ok) {
     return jsonResponse;
-  } else {
-    throw {
-      name: "servicesError",
-      message: jsonResponse || { message: "Unknown server error" }
-    };
   }
+
+  // Normalizar mensaje
+  const message =
+    jsonResponse?.message ||   
+    jsonResponse ||            
+    "Unknown server error";    
+
+  throw {
+    name: "servicesError",
+    message
+  };
 }
+
 
 export default class ExternalServices {
   constructor(category) {
