@@ -12,8 +12,6 @@ async function convertToJson(res) {
   if (res.ok) {
     return jsonResponse;
   }
-
-  // Normalizar mensaje
   const message =
     jsonResponse?.message ||   
     jsonResponse ||            
@@ -24,7 +22,6 @@ async function convertToJson(res) {
     message: message,
   };
 }
-
 
 export default class ExternalServices {
   constructor(category) {

@@ -125,7 +125,10 @@ export default class CheckoutProcess {
     } catch (err) {
       console.log("Error occurred while checking out:", err);
 
-      const serverMessage = err?.message?.message || err?.message ||"An error occurred during checkout. Please try again.";
+      let serverMessage = err?.message?.message || err?.message;
+      if (typeof serverMessage === "object") {
+        serverMessage = "An error occurred during checkout. Please try again.";
+      }
       alertMessage(serverMessage);
     }
   }
