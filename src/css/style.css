@@ -354,7 +354,7 @@ button {
 }
 
 /* checkout form */
-.checkout-form{
+.checkoutForm{
   max-width: 500px;
   display: flex;
   flex-direction: column;
@@ -362,13 +362,13 @@ button {
   gap: 2rem;
 }
 
-.checkout-form input{
+.checkoutForm input{
     padding: 8px;
       font-size: 0.95rem;
       width: 100%;
 }
 
-.checkout-form div {
+.checkoutForm div {
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
