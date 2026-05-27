@@ -1,5 +1,5 @@
 
-import { getLocalStorage } from "./utils.mjs";
+import { getLocalStorage, alertMessage } from "./utils.mjs";
 import ExternalServices from "./ExternalServices.mjs";
 
 const services = new ExternalServices();
@@ -125,7 +125,7 @@ export default class CheckoutProcess {
     } catch (err) {
       console.log("Error occurred while checking out:", err);
 
-      alertMessage(err.message.message || "There was an error processing your order.");
+      alertMessage(err.message?.message || "There was an error processing your order.");
     }
   }
 }
