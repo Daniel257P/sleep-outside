@@ -21,7 +21,7 @@ async function convertToJson(res) {
 
   throw {
     name: "servicesError",
-    message
+    message: message,
   };
 }
 
