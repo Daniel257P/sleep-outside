@@ -12,8 +12,9 @@ zipInput.addEventListener("blur", () => {
   checkout.calculateOrderTotal();
 });
 
+// Add event listener to the checkout button to trigger the checkout process
 const submitButton = document.querySelector("#checkoutSubmit");
 submitButton.addEventListener("click", (e) => {
   e.preventDefault();   
-  checkout.checkout(); 
+  checkout.checkout(); // Call the checkout method to process the order
 });
