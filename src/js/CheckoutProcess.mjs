@@ -127,9 +127,11 @@ export default class CheckoutProcess {
       console.log("Error occurred while checking out:", err);
 
       if (typeof serverMessage === "object") {
-        serverMessage = Object.values(serverMessage).join(", ");
+        for (const msg of Object.values(serverMessage)) {
+          alertMessage(msg);
+        }
+        return;
       }
-     
       alertMessage(serverMessage);
     }
   }
