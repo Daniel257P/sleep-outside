@@ -29,7 +29,7 @@ export default class ProductDetails {
     }
     setLocalStorage("so-cart", cartItems);
 
-    alertMessage("Item added to cart!", false); // show success message added to cart
+    alertMessage(`${this.product.NameWithoutBrand} added to cart!`, false); // show success message added to cart
   }
 
   renderProductDetails() {
