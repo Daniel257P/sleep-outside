@@ -123,12 +123,14 @@ export default class CheckoutProcess {
       window.location.href = "success.html";
 
     } catch (err) {
+      let serverMessage = err?.message?.message || err?.message || "An error occurred during checkout. Please try again.";
       console.log("Error occurred while checking out:", err);
 
-      let serverMessage = err?.message?.message || err?.message;
+      if (typeof serverMessage === "object") {
+        serverMessage = Object.values(serverMessage).join(", ");
+      }
      
-      serverMessage = String(serverMessage); 
-      alertMessage(serverMessage || "An error occurred during checkout. Please try again.");
+      alertMessage(serverMessage);
     }
   }
 }
