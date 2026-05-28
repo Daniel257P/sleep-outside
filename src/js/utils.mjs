@@ -78,6 +78,8 @@ export function alertMessage(message, scroll = true) {
   const alert = document.createElement("div");
   alert.classList.add("alert");
 
+  if (!scroll) alert.classList.add("toast");
+
   alert.innerHTML = `
     <p>${message}</p>
     <span class="close">X</span>
