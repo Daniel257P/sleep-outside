@@ -1,28 +1,16 @@
 const baseURL = import.meta.env.VITE_SERVER_URL
 //week 3 ^^^
 
-async function convertToJson(res) {
-  let jsonResponse = null;
-
-  try {
-    jsonResponse = await res.json();
-  } catch (e) {
-  }
-
+function convertToJson(res) {
   if (res.ok) {
-    return jsonResponse;
+    return res.json();
+  } else {
+    throw {
+      name: "servicesError",
+      message: jsonResponse };
   }
-  const message =
-    jsonResponse?.message ||   
-    jsonResponse ||            
-    "Unknown server error";    
-
-  throw {
-    name: "servicesError",
-    message: message,
-  };
 }
-
+0
 export default class ExternalServices {
   constructor(category) {
     //this.category = category;
