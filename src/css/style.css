@@ -462,7 +462,7 @@ footer {
 .comments-section h3 {
   font-size: 1.3rem;
   margin-bottom: 1rem;
-  color: var(--secondary-color);
+  color: var(--tertiary-color);
 }
 
 .comments-list {
