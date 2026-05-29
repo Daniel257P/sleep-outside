@@ -1,4 +1,5 @@
-import { getLocalStorage, setLocalStorage,alertMessage } from "./utils.mjs";
+import { getLocalStorage, setLocalStorage, alertMessage } from "./utils.mjs";
+import Comments from "./Comments.mjs";
 
 export default class ProductDetails {
   constructor(productId, dataSource) {
@@ -10,6 +11,9 @@ export default class ProductDetails {
   async init() {
     this.product = await this.dataSource.findProductById(this.productId);
     this.renderProductDetails();
+
+    const comments = new Comments(this.productId);
+    comments.init();
 
     document
       .getElementById("addToCart")
