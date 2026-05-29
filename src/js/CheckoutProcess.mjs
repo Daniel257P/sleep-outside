@@ -1,5 +1,5 @@
 
-import { getLocalStorage } from "./utils.mjs";
+import { getLocalStorage, alertMessage } from "./utils.mjs";
 import ExternalServices from "./ExternalServices.mjs";
 
 const services = new ExternalServices();
@@ -98,8 +98,13 @@ export default class CheckoutProcess {
   
    async checkout() {
     const formElement = document.forms["checkout"];
-    const order = formDataToJSON(formElement);
 
+    if (!formElement.checkValidity()) {
+      formElement.reportValidity();
+      return;
+    }
+
+    const order = formDataToJSON(formElement);
     order.orderDate = new Date().toISOString();
     order.orderTotal = this.orderTotal;
     order.tax = this.tax;
@@ -109,9 +114,25 @@ export default class CheckoutProcess {
 
     try {
       const response = await services.checkout(order);
-      console.log(response);
+      console.log("Order Success:", response);
+
+      localStorage.setItem("order-id", response.orderId);
+
+      localStorage.removeItem("so-cart");
+
+      window.location.href = "success.html";
+
     } catch (err) {
-      console.log(err);
+      let serverMessage = err?.message?.message || err?.message || "An error occurred during checkout. Please try again.";
+      console.log("Error occurred while checking out:", err);
+
+      if (typeof serverMessage === "object") {
+        for (const msg of Object.values(serverMessage)) {
+          alertMessage(msg);
+        }
+        return;
+      }
+      alertMessage(serverMessage);
     }
   }
 }
