@@ -1,4 +1,6 @@
-import { getLocalStorage, setLocalStorage } from "./utils.mjs";
+import { getLocalStorage, setLocalStorage, loadHeaderFooter, updateCartBadge } from "./utils.mjs";
+
+await loadHeaderFooter();
 
 export default class ProductDetails {
   constructor(productId, dataSource) {
@@ -6,6 +8,7 @@ export default class ProductDetails {
     this.product = {};
     this.dataSource = dataSource;
   }
+
 
   async init() {
     this.product = await this.dataSource.findProductById(this.productId);
@@ -28,6 +31,18 @@ export default class ProductDetails {
       cartItems.push(newCartItem);
     }
     setLocalStorage("so-cart", cartItems);
+    this.animateAddToCart();
+    updateCartBadge();
+  }
+
+  animateAddToCart() { 
+  const cartIcon = document.querySelector(".cart");
+
+  if (cartIcon) {
+    cartIcon.classList.remove("bump");
+    void cartIcon.offsetWidth;
+    cartIcon.classList.add("bump");
+  }    
   }
 
   renderProductDetails() {
