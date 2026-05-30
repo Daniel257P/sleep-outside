@@ -8,7 +8,7 @@ export default class ProductDetails {
   }
 
     async init() {
-        this.product = await this.dataSource.getProductById(this.productId);
+        this.product = await this.dataSource.findProductById(this.productId);
         this.renderProductDetails();
 
         document.getElementById("addToCart").addEventListener("click", this.addProductToCart.bind(this));
@@ -27,26 +27,26 @@ export default class ProductDetails {
 }
 
 function productDetailsTemplate(product) {
-    document.querySelector("h2").textContent = product.Brand.Name;
-    document.querySelector("h3").textContent = product.NameWithoutBrand;
+    document.querySelector("h2").textContent = product.Category.charAt(0).toUpperCase() + product.Category.slice(1);
+    document.querySelector("#p-brand").textContent = product.Brand.Name;
+    document.querySelector("#p-name").textContent = product.NameWithoutBrand;
 
-    const productImage = document.querySelector(".productImage");
-    if (productImage) {
-        productImage.src = product.Image;
-        productImage.alt = product.NameWithoutBrand;
-    }
+    const productImage = document.querySelector("#p-image");
+    productImage.src = product.Images?.PrimaryLarge || product.Images?.PrimaryExtraLarge || product.Image || "";
+    productImage.alt = product.NameWithoutBrand;
+    const euroPrice = new Intl.NumberFormat("de-DE", {style: "currency", currency: "EUR"}).format(Number(product.FinalPrice) * 0.85);
 
-    const productPrice = document.querySelector(".productPrice");
+    const productPrice = document.querySelector("#p-price");
     if (productPrice) {
-        productPrice.textContent = product.FinalPrice;
+        productPrice.textContent = euroPrice;
     }
 
-    const productColor = document.querySelector(".productColor");
+    const productColor = document.querySelector("#p-color");
     if (productColor) {
         productColor.textContent = product.Colors[0].ColorName;
     }
 
-    const productDescription = document.querySelector(".productDes");
+    const productDescription = document.querySelector("#p-description");
     if (productDescription) {
         productDescription.innerHTML = product.DescriptionHtmlSimple;
     }

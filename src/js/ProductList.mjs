@@ -2,10 +2,12 @@ import { renderListWithTemplate } from "./utils.mjs";
 
 //template function that will simply return a template literal string for each of the templates needed
 function productCardTemplate(product) {
+  const imageSrc = product.Images?.PrimaryMedium || product.Image || product.Images?.PrimarySmall || "";
+
   return `
     <li class="product-card">
       <a href="product_pages/index.html?product=${product.Id}">
-        <img src="${product.Image}" alt="${product.Name}">
+        <img src="${imageSrc}" alt="${product.Name}">
         <h3 class="card__brand">${product.Brand.Name}</h3>
         <h2 class="card__name">${product.Name}</h2>
         <p class="product-card__price">${product.FinalPrice}</p>
@@ -23,32 +25,50 @@ export default class ProductList {
     this.category = category;
     this.dataSource = dataSource;
     this.listElement = listElement;
+    this.products = [];
+    this.currentSort = "";
   }
 
   //Finally, use the dataSource to get the list of products to work with.
   //  You could do that in the constructor or in an init() method.
   //  One advantage of the init method is that it will allow us to use async/await when calling the promise in getData().
   async init() {
-    try {
-      const list = await this.dataSource.getData(this.category);
-      this.render(list);
-    } catch (error) {
-      this.handleError(error);
+    const list = await this.dataSource.getData(this.category);
+    this.products = list;
+    this.renderList(this.products);
+    document.querySelector(".title").textContent = this.category;
+    this.setupSortControl();
+  }
+
+  setupSortControl() {
+    const sortControl = document.getElementById("sort-control");
+    if (sortControl) {
+      sortControl.addEventListener("change", (e) => {
+        this.currentSort = e.target.value;
+        const sortedProducts = this.getSortedProducts();
+        this.renderList(sortedProducts);
+      });
     }
-}
+  }
+
+  getSortedProducts() {
+    let sorted = [...this.products];
+
+    if (this.currentSort === "name-asc") {
+      sorted.sort((a, b) => a.Name.localeCompare(b.Name));
+    } else if (this.currentSort === "name-desc") {
+      sorted.sort((a, b) => b.Name.localeCompare(a.Name));
+    } else if (this.currentSort === "price-asc") {
+      sorted.sort((a, b) => Number(a.FinalPrice) - Number(b.FinalPrice));
+    } else if (this.currentSort === "price-desc") {
+      sorted.sort((a, b) => Number(b.FinalPrice) - Number(a.FinalPrice));
+    }
+
+    return sorted;
+  }
 
 renderList(product) {
-  return productCardTemplate(product);
-}
-
-render(products) {
-  renderListWithTemplate(this.renderList.bind(this), this.listElement, products, "afterbegin", true);
-}
-
-handleError(error) {
-  if (this.listElement) {
-    this.listElement.innerHTML = "<p>Sorry, we couldn't load the products at this time. Please try again later.</p>";
-  }
+  renderListWithTemplate(productCardTemplate, this.listElement, product);
 }
 
 }

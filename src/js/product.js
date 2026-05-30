@@ -1,14 +1,16 @@
-import {getParameters} from "./utils.mjs";
+import {getParameters, loadHeaderFooter} from "./utils.mjs";
 import ProductDetails from "./ProductDetails.mjs";
 import ProductData from "./ProductData.mjs";
 
-const dataSource = new ProductData("tents");
-const productId = getParameters("product");
+loadHeaderFooter();
 
-window.addEventListener("DOMContentLoaded", () => {
-  const product = new ProductDetails(productId, dataSource);
-  product.init();
-});
+const dataSource = new ProductData("tents");
+const productID = getParameters("product");
+
+const product = new ProductDetails(productID, dataSource);
+
+product.init();
+
 
 // function addProductToCart(product) {
 //   setLocalStorage("so-cart", product);
