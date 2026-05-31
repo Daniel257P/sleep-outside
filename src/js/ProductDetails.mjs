@@ -1,5 +1,7 @@
-import { getLocalStorage, setLocalStorage, alertMessage } from "./utils.mjs";
+import { getLocalStorage, setLocalStorage, alertMessage, updateCartBadge, loadHeaderFooter } from "./utils.mjs";
 import Comments from "./Comments.mjs";
+
+loadHeaderFooter();
 
 export default class ProductDetails {
   constructor(productId, dataSource) {
@@ -34,7 +36,22 @@ export default class ProductDetails {
     setLocalStorage("so-cart", cartItems);
 
     alertMessage(`${this.product.NameWithoutBrand} added to cart!`, false); // show success message added to cart
+    
+    this.animateAddToCart();
+    updateCartBadge();
   }
+
+  // week 04 task julia 
+  animateAddToCart() { 
+  const cartIcon = document.querySelector(".cart");
+
+  if (cartIcon) {
+    cartIcon.classList.remove("bump");
+    void cartIcon.offsetWidth;
+    cartIcon.classList.add("bump");
+  }    
+  }
+  
 
   renderProductDetails() {
     const container = document.querySelector(".product-detail");
