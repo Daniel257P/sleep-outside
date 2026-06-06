@@ -1,4 +1,4 @@
-import { getLocalStorage, setLocalStorage } from "./utils.mjs";
+import { getLocalStorage, setLocalStorage, alertMessage } from "./utils.mjs";
 
 export default class ProductDetails {
   constructor(productId, dataSource) {
@@ -8,17 +8,30 @@ export default class ProductDetails {
   }
 
     async init() {
-        this.product = await this.dataSource.findProductById(this.productId);
-        this.renderProductDetails();
+        try {
+            this.product = await this.dataSource.findProductById(this.productId);
+            this.renderProductDetails();
 
-        document.getElementById("addToCart").addEventListener("click", this.addProductToCart.bind(this));
+            const button = document.getElementById("addToCart");
+            if (button) {
+                button.addEventListener("click", this.addProductToCart.bind(this));
+            } else {
+                alertMessage("Add to Cart button not found");
+            }
+        } catch (error) {
+            alertMessage("Error loading product details");
+        }
     }   
 
     addProductToCart() {
-        const cartItems = getLocalStorage("so-cart") || [];
-        cartItems.push(this.product);
-        setLocalStorage("so-cart", cartItems);
-        alert("Product added to cart!");
+        try {
+            const cartItems = getLocalStorage("so-cart") || [];
+            cartItems.push(this.product);
+            setLocalStorage("so-cart", cartItems);
+            alertMessage("Product added to cart!");
+        } catch (error) {
+            alertMessage("Error adding product to cart!");
+        }
     }
 
     renderProductDetails() {
@@ -27,32 +40,39 @@ export default class ProductDetails {
 }
 
 function productDetailsTemplate(product) {
-    document.querySelector("h2").textContent = product.Category.charAt(0).toUpperCase() + product.Category.slice(1);
-    document.querySelector("#p-brand").textContent = product.Brand.Name;
-    document.querySelector("#p-name").textContent = product.NameWithoutBrand;
+    try {
+        const brandElement = document.querySelector("h3");
+        if (brandElement) brandElement.textContent = product.Brand.Name;
+        
+        const nameElement = document.querySelector("h2");
+        if (nameElement) nameElement.textContent = product.NameWithoutBrand;
 
-    const productImage = document.querySelector("#p-image");
-    productImage.src = product.Images?.PrimaryLarge || product.Images?.PrimaryExtraLarge || product.Image || "";
-    productImage.alt = product.NameWithoutBrand;
-    const euroPrice = new Intl.NumberFormat("de-DE", {style: "currency", currency: "EUR"}).format(Number(product.FinalPrice) * 0.85);
+        const productImage = document.querySelector(".product-detail img");
+        if (productImage) {
+            productImage.src = product.Images?.PrimaryLarge || product.Images?.PrimaryExtraLarge || product.Image || "";
+            productImage.alt = product.NameWithoutBrand;
+        }
 
-    const productPrice = document.querySelector("#p-price");
-    if (productPrice) {
-        productPrice.textContent = euroPrice;
-    }
+        const productPrice = document.querySelector(".product-card__price");
+        if (productPrice) {
+            productPrice.textContent = `$${product.FinalPrice}`;
+        }
 
-    const productColor = document.querySelector("#p-color");
-    if (productColor) {
-        productColor.textContent = product.Colors[0].ColorName;
-    }
+        const productColor = document.querySelector(".product__color");
+        if (productColor && product.Colors && product.Colors.length > 0) {
+            productColor.textContent = product.Colors[0].ColorName;
+        }
 
-    const productDescription = document.querySelector("#p-description");
-    if (productDescription) {
-        productDescription.innerHTML = product.DescriptionHtmlSimple;
-    }
+        const productDescription = document.querySelector(".product__description");
+        if (productDescription) {
+            productDescription.innerHTML = product.DescriptionHtmlSimple;
+        }
 
-    const addToCartButton = document.getElementById("addToCart");
-    if (addToCartButton) {
-        addToCartButton.dataset.id = product.Id || product.id;
+        const addToCartButton = document.getElementById("addToCart");
+        if (addToCartButton) {
+            addToCartButton.dataset.id = product.Id || product.id;
+        }
+    } catch (error) {
+        // Silently handle template rendering errors
     }
 }

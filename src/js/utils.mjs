@@ -66,3 +66,33 @@ export async function loadHeaderFooter() {
     // Shared templates are optional, so fail silently if they cannot be loaded.
   }
 }
+
+export function alertMessage(message, scroll = true, timeout = 3000) {
+  const alertContainer = document.createElement("div");
+  alertContainer.classList.add("alert-message");
+  alertContainer.innerHTML = `<p>${message}</p><span>X</span>`;
+
+  const main = document.querySelector("main");
+
+  alertContainer.addEventListener("click", (e) => {
+    if (e.target && e.target.tagName === "SPAN") {
+      if (main && main.contains(alertContainer)) {
+        main.removeChild(alertContainer);
+      }
+    }
+  });
+
+  if (main) {
+    main.prepend(alertContainer);
+
+    if (scroll) {
+      main.scrollIntoView({ behavior: "smooth" });
+    }
+
+    setTimeout(() => {
+      if (main.contains(alertContainer)) {
+        main.removeChild(alertContainer);
+      }
+    }, timeout);
+  }
+}

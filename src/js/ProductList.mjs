@@ -6,7 +6,7 @@ function productCardTemplate(product) {
 
   return `
     <li class="product-card">
-      <a href="product_pages/index.html?product=${product.Id}">
+      <a href="/product_pages/index.html?product=${product.Id}">
         <img src="${imageSrc}" alt="${product.Name}">
         <h3 class="card__brand">${product.Brand.Name}</h3>
         <h2 class="card__name">${product.Name}</h2>
@@ -25,8 +25,6 @@ export default class ProductList {
     this.category = category;
     this.dataSource = dataSource;
     this.listElement = listElement;
-    this.products = [];
-    this.currentSort = "";
   }
 
   //Finally, use the dataSource to get the list of products to work with.
@@ -34,9 +32,8 @@ export default class ProductList {
   //  One advantage of the init method is that it will allow us to use async/await when calling the promise in getData().
   async init() {
     const list = await this.dataSource.getData(this.category);
-    this.products = list;
-    this.renderList(this.products);
-    document.querySelector(".title").textContent = this.category;
+    this.renderList(list);
+    document.querySelector(".category-title").textContent = this.category;
     this.setupSortControl();
   }
 
